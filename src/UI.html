@@ -1,6 +1,14 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <script>
+          window.onload = function(){
+            document.getElementById('butval').onclick = function(){
+              document.getElementById('valbox').value = document.getElementById('valbox').value;
+              console.log(valbox.value);   
+            }
+          };
+        </script>
         <style>
             * {box-sizing: border-box;}
             
@@ -74,8 +82,8 @@
         <div class="topnav">
             <div class="search-container" align=center>
               <form action="/action_page.php">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit">Search<i class="fa fa-search"></i></button>
+                <input type="text" placeholder="Search.." name="search" id="valbox">
+                <button type="button" name="design1" id="butval">Search<i class="fa fa-search"></i></button>
               </form>
             </div>
           </div>
