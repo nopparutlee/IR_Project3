@@ -2,12 +2,47 @@
 <html>
     <head>
         <script>
-          window.onload = function(){
-            document.getElementById('butval').onclick = function(){
-              document.getElementById('valbox').value = document.getElementById('valbox').value;
-              console.log(valbox.value);   
-            }
-          };
+        /* in case the new one fcuks up
+        window.onload = function(){
+          document.getElementById('butval').onclick = function(){
+            document.getElementById('valbox').value = document.getElementById('valbox').value;
+            console.log(valbox.value);   
+          }
+        };*/
+        
+        function searchResult() {
+      	  var xmlhttp, queryObj, relevantDocs, x, dbParam, txt = "", rank = 1;
+      	  var queryObj = {String: document.getElementById('valbox')};
+      	  
+      	  dbParam = JSON.stringify(queryObjc);
+      	  
+      	  xmlhttp = new XMLHttpRequest();
+      	  xmlhttp.onreadystatechange = function() {
+      		    if (this.readyState == 4 && this.status == 200) {
+      		    	
+      		    	relevantDocs = JSON.parse(this.responseText);
+      		        txt += "<table border='1'>"
+      		        
+      		        for (x in relevantDocs) {
+      		          txt += "<tr><td>" + rank + "</td><td>"+ relevantDocs[x].title + "</td><td>" + revelantDocs[x].score + "</td></tr>";
+      		          rank++;
+      		          /*What the result will look like:
+      		        	 ____________________________
+      		        	 |_1_|_Doc1Title_|_Doc1Score_|
+      		        	 |_2_|_Doc2Title_|_Doc2Score_|
+      		        	 |_3_|_Doc3Title_|_Doc3Score_| 
+     		        	  */
+      		        }
+      		        txt += "</table>"
+      		         
+      		        document.getElementById("result").innerHTML = txt; //Replace the content of "result" in HTML with the returned JSON
+      		    }
+      	  };
+      	  
+      	  xmlhttp.open("POST", "<something>.php", true);
+      	  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      	  xmlhttp.send("q=" + dbParam);
+        }
         </script>
         <style>
             * {box-sizing: border-box;}
@@ -83,9 +118,12 @@
             <div class="search-container" align=center>
               <form action="/action_page.php">
                 <input type="text" placeholder="Search.." name="search" id="valbox">
-                <button type="button" name="design1" id="butval">Search<i class="fa fa-search"></i></button>
+                <button type="button" name="design1" id="butval" onclick="searchResult">Search<i class="fa fa-search"></i></button>
               </form>
             </div>
           </div>
+          <div>
+        	<p id="result"></p>
+        </div>
     </body>
 </html>
