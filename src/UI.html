@@ -21,8 +21,8 @@
       		    if (this.readyState == 4 && this.status == 200) {
       		    	
       		    	relevantDocs = JSON.parse(this.responseText);
-      		        txt += "<table border='1'>"
-      		        
+                    
+      		        txt += "<table border='1'>
       		        for (x in relevantDocs) {
       		          txt += "<tr><td>" + rank + "</td><td>"+ relevantDocs[x].title + "</td><td>" + revelantDocs[x].score + "</td></tr>";
       		          rank++;
@@ -31,7 +31,7 @@
       		        	 |_1_|_Doc1Title_|_Doc1Score_|
       		        	 |_2_|_Doc2Title_|_Doc2Score_|
       		        	 |_3_|_Doc3Title_|_Doc3Score_| 
-     		        	  */
+     		           */
       		        }
       		        txt += "</table>"
       		         
