@@ -12,20 +12,21 @@
         
         function searchResult() {
       	  var xmlhttp, queryObj, relevantDocs, x, dbParam, txt = "", rank = 1;
-      	  var queryObj = {String: document.getElementById('valbox')};
+      	  var queryObj = document.getElementById('valbox').value;
       	  
-      	  dbParam = JSON.stringify(queryObjc);
+      	  //dbParam = JSON.stringify(queryObj);
       	  
       	  xmlhttp = new XMLHttpRequest();
+		  txt = '';
+		  console.log(decodeURIComponent(queryObj));
       	  xmlhttp.onreadystatechange = function() {
       		    if (this.readyState == 4 && this.status == 200) {
       		    	
       		    	relevantDocs = JSON.parse(this.responseText);
-                    
-      		        txt += "<table border='1'>
-      		        for (x in relevantDocs) {
-      		          txt += "<tr><td>" + rank + "</td><td>"+ relevantDocs[x].title + "</td><td>" + revelantDocs[x].score + "</td></tr>";
-      		          rank++;
+                    console.log(relevantDocs);
+      		        txt += "<table border='1'><tr><td><b>No.</b></td><td><b>File Name</b></td><td><b>URL</b></td><td><b>Sample Text</b></td></tr>"
+      		        for (var i = 0; i < relevantDocs.length; i++) {
+      		          txt += "<tr><td>" + (i+1) + "</td><td>"+ relevantDocs[i].name + "</td><td><a href='" + relevantDocs[i].url + "'>" + relevantDocs[i].url + "</a></td><td>"+ relevantDocs[i].rawText+"</td></tr>";
       		          /*What the result will look like:
       		        	 ____________________________
       		        	 |_1_|_Doc1Title_|_Doc1Score_|
@@ -38,10 +39,11 @@
       		        document.getElementById("result").innerHTML = txt; //Replace the content of "result" in HTML with the returned JSON
       		    }
       	  };
-      	  
-      	  xmlhttp.open("POST", "<something>.php", true);
-      	  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      	  xmlhttp.send("q=" + dbParam);
+		  
+      	  xmlhttp.open("GET", "http://localhost:5000/api/getDocuments?query=" + encodeURIComponent(queryObj), true);
+      	  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+		  console.log(xmlhttp);
+      	  xmlhttp.send("http://localhost:5000/api/getDocuments?query=" + queryObj);
         }
         </script>
         <style>
@@ -118,11 +120,11 @@
             <div class="search-container" align=center>
               <form action="/action_page.php">
                 <input type="text" placeholder="Search.." name="search" id="valbox">
-                <button type="button" name="design1" id="butval" onclick="searchResult">Search<i class="fa fa-search"></i></button>
+                <button type="button" name="design1" id="butval" onclick="searchResult()">Search<i class="fa fa-search"></i></button>
               </form>
             </div>
           </div>
-          <div>
+          <div align=center>
         	<p id="result"></p>
         </div>
     </body>

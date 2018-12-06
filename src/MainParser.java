@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.compress.compressors.FileNameUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,7 +27,7 @@ public class MainParser {
 			if(entity != null) {
 				try {
 					input = entity.getContent();
-					BodyContentHandler handler = new BodyContentHandler();
+					BodyContentHandler handler = new BodyContentHandler(1000000);
 					Metadata meta = new Metadata();
 					AutoDetectParser parser = new AutoDetectParser();
 					ParseContext context = new ParseContext();
